@@ -31,7 +31,6 @@ person = ("Do thanhton ","Huwng yen")
 result = insert(person)
 connection.commit()
 print(result)
-
 if result:
     print('Thanh cong')
 else:
