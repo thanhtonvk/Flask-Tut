@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="POST">
+    <p>Name</p>
+    <br>
+    <input type="text" name="student_name" value="{{ student.name }}">
+    <p>Date of birth</p>
+    <br>
+    <input type="date" name="student_date_of_birth" value="{{ student.dateOfBirth }}">
+    <p>Address</p>
+    <br>
+    <input type="text" name="student_address" value="{{ student.address }}">
+    <input type="submit" value="update"/>
+</form>
+</body>
+</html>

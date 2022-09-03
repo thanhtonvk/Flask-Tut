@@ -1,9 +1,10 @@
 from flask import Flask
 # render html
-from flask import render_template,request,redirect,url_for
-
+from flask import render_template, request, redirect, url_for
+from dal.account_dal import login_account
 
 app = Flask(__name__)
+
 
 @app.route('/user/<user>')
 def user(user):
@@ -14,19 +15,22 @@ def user(user):
 def get_id(user_id):
     return "User id  = %s" % user_id
 
-@app.route('/login', methods = ['GET','POST'])
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        if username == 'admin' and password =='admin':
-            #điều hướng toi route
+        acc = login_account(username, password)
+        if acc != None:
+            # điều hướng toi route
             return redirect(url_for('home'))
         else:
             error = 'Tai khoan hoac mat khau khong chinh xac'
-    return render_template("login.html",error = error)
+    return render_template("login.html", error=error)
+
 
 @app.route('/dashboard')
 def dashboard():
