@@ -7,9 +7,9 @@ db = 'Flask_TUT'
 tcon = True
 uname = 'sa'
 pword = '12345'
-connection=pyodbc.connect(driver='{SQL Server}',
-                      host=server, database=db, trusted_connection=tcon,
-                      user=uname, password=pword)
+connection = pyodbc.connect(driver='{SQL Server}',
+                            host=server, database=db, trusted_connection=tcon,
+                            user=uname, password=pword)
 
 
 def insert_student(student):
@@ -18,39 +18,46 @@ def insert_student(student):
     cursor.execute(query)
     cursor.commit()
     cursor.close()
+
+
 def get_all_student():
     cursor = connection.cursor()
     query = "exec get_all_student"
     cursor.execute(query)
     list_student = []
     for i in cursor:
-        student = Student(name=i[1],dateOfBirth=i[2],address=i[3])
+        student = Student(name=i[1], dateOfBirth=i[2], address=i[3])
         student.id = i[0]
         list_student.append(student)
     cursor.close()
     return list_student
-def update_student(student):
+
+
+def update(student):
     cursor = connection.cursor()
     query = f"exec update_student {student.id},N'{student.name}' , '{student.dateOfBirth}' , N'{student.address}'"
+    print(query)
     cursor.execute(query)
     cursor.commit()
     cursor.close()
-def get_student_by_id(id):
+
+
+def get_student_by_id(id_hs):
     cursor = connection.cursor()
-    query = f"exec get_student_by_id {id}"
+    query = f"exec get_student_by_id {id_hs}"
     cursor.execute(query)
     list_student = []
     for i in cursor:
-        student = Student(name=i[1],dateOfBirth=i[2],address=i[3])
+        student = Student(name=i[1], dateOfBirth=i[2], address=i[3])
         student.id = i[0]
         list_student.append(student)
     cursor.close()
     return list_student[0]
 
-def delete_student(id):
+
+def delete_student(id_hs):
     cursor = connection.cursor()
-    query = f"exec delete_student {id}"
+    query = f"exec delete_student {id_hs}"
     cursor.execute(query)
     cursor.commit()
     cursor.close()
-
