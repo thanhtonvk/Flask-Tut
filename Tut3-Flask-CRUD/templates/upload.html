@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="upload">
+</form>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date Of Birth</th>
+        <th>Address</th>
+    </tr>
+    {% for student in list_student %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.dateOfBirth }}</td>
+            <td>{{ student.address }}</td>
+
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+
+</body>
+</html>

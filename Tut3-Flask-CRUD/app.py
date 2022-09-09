@@ -1,6 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for
-
-from models.Student import Student
 from dal.Student_DAL import *
 
 app = Flask(__name__)
@@ -35,11 +33,40 @@ def update_student(id_hs):
     return 'Failed'
 
 
-@app.route('/student/index')
-@app.route('/student', methods=['GET'])
+@app.route('/student/delete/<int:id_hs>')
+def deletion_student(id_hs):
+    if not id_hs or id_hs != 0:
+        student = get_student_by_id(id_hs)
+        if student:
+            delete(id_hs)
+            return redirect('/student')
+    return 'Failed'
+
+
+@app.route('/student', methods=['GET', 'POST'])
 def main_student():
     students = get_all_student()
+    if request.method == 'POST':
+        timkiem = request.form['timkiem']
+        if timkiem:
+            students = [student for student in students if timkiem in student.name]
     return render_template('student.html', list_student=students)
+
+
+upload_folder = './upload_file/'
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def uploader_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        file_path = upload_folder + f.filename
+        f.save(file_path)
+        students = read_student_from_excel(file_path)
+        for student in students:
+            insert_student(student)
+        return redirect('/student')
+    return render_template('upload.html')
 
 
 if __name__ == '__main__':
